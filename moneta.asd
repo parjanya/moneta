@@ -24,8 +24,8 @@
   :license "GPLv3"
   :depends-on ("drakma"
                "yason")
-  :components ((:file "api-key")
-               (:file "moneta"))
+  :components ((:file "moneta")
+               (:file "api-key"))
   :description "A package for querying exchange rates from
   openexchangerates.org and converting between currencies. You should
   set your api key on api-key.lisp with something like

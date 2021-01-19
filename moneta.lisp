@@ -6,6 +6,7 @@
 
 (in-package :moneta)
 
+(defparameter *exchange-api-id* "") ;; tmp value before loading api-key.lisp
 (defconstant +posix-epoch+ (encode-universal-time 0 0 0 1 1 1970 0))
 (defconstant +currency-names+ '(("AED" . "United Arab Emirates Dirham")
 				("AFN" . "Afghan Afghani")
@@ -213,6 +214,8 @@ If no TO currency is given, I assume it to be \"USD\"."
   ;; more than an hour old, (* 60 60) secounds, the exchange is updated.
   (let ((exchange-time (cdr (assoc "timestamp" (cdr exchange) :test 'equal)))
 	(current-time (- (get-universal-time) +posix-epoch+)))
+    (unless exchange-time
+      (setq exchange-time 1))
     (if (< (+ exchange-time 3600) current-time)
 	(setq exchange (exchange-get))))
   (if (equal from :USD)
@@ -220,3 +223,4 @@ If no TO currency is given, I assume it to be \"USD\"."
       (* (/ amount (exchange from)) (exchange to)))) ;; from → USD → to
 
 (defparameter exchange (exchange-get))
+
